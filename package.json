@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "ts-node-dev src/index.ts",
+    "test": "jest --detectOpenHandles --runInBand",
     "build": "tsc"
   },
   "keywords": [],
@@ -18,7 +19,12 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
