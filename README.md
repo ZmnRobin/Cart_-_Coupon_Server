@@ -54,13 +54,23 @@ Start the development server:
 ```bash
 npm run dev
 ```
-The server will start at `http://localhost:3000`.
+The server will start at `http://localhost:5000`.
 
 ## Testing the API
 
 You can test the API using any of the following three methods:
 
-### Option 1: Postman Collection (API Testing)
+### Option 1: React Frontend (Visual Testing)
+
+A React frontend is available for visual testing and demonstration.
+
+**Steps:**
+1. Ensure the backend server is running (`npm run dev`)
+2. Navigate to the frontend directory and start it
+3. Open `https://cart-frontend-rho.vercel.app/` in your browser
+4. Interact with the cart and test coupon functionality visually
+
+### Option 2: Postman Collection (API Testing)
 
 A Postman collection is included in the project for easy API testing.
 
@@ -81,7 +91,7 @@ A Postman collection is included in the project for easy API testing.
 - **POST /cart/:userId/coupon/remove** - Remove coupon
 - **GET /products** - Get all products
 
-### Option 2: Unit Tests (Automated Testing)
+### Option 3: Unit Tests (Automated Testing)
 
 Run the automated test suite to verify all functionality:
 
@@ -95,25 +105,6 @@ This will run Jest tests covering:
 - Concurrency control
 - Auto-coupon selection
 
-### Option 3: React Frontend (Visual Testing)
-
-A React frontend is available for visual testing and demonstration.
-
-**Local Development:**
-```
-Frontend URL: http://localhost:5173
-Backend URL: http://localhost:5000
-```
-
-**Steps:**
-1. Ensure the backend server is running (`npm run dev`)
-2. Navigate to the frontend directory and start it
-3. Open `http://localhost:5173` in your browser
-4. Interact with the cart and test coupon functionality visually
-
-**Production (Vercel):**
-- Frontend: *[To be deployed]*
-- Backend: Ensure CORS is configured for the Vercel domain
 
 ## Project Structure
 
