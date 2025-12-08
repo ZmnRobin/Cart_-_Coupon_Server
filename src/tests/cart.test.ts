@@ -12,21 +12,18 @@ describe('Cart API Integration Tests', () => {
   let productId: number;
 
   beforeAll(async () => {
-    // Ensure product exists
     const product = await prisma.product.upsert({
       where: { sku: 'TEST-PROD-CART' },
       update: {},
       create: {
         sku: 'TEST-PROD-CART',
         name: 'Test Cart Product',
-        priceCents: 2000, // $20.00
-      },
-    });
+        priceCents: 2000,
+      });
     productId = product.id;
   });
 
   afterAll(async () => {
-    // Cleanup
     const cart = await prisma.cart.findUnique({ where: { userId } });
     if (cart) {
       await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
@@ -38,11 +35,11 @@ describe('Cart API Integration Tests', () => {
     const res = await request(app)
       .post(`/cart/${userId}/item`)
       .send({ productId, quantity: 2 });
-    
+
     expect(res.statusCode).toBe(200);
     expect(res.body.items).toHaveLength(1);
     expect(res.body.items[0].quantity).toBe(2);
-    expect(res.body.totals.subtotalCents).toBe(4000); // 2 * 2000
+    expect(res.body.totals.subtotalCents).toBe(4000);
     expect(res.body.totals.finalTotalCents).toBe(4000);
   });
 
@@ -53,7 +50,7 @@ describe('Cart API Integration Tests', () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.items[0].quantity).toBe(5);
-    expect(res.body.totals.subtotalCents).toBe(10000); // 5 * 2000
+    expect(res.body.totals.subtotalCents).toBe(10000);
   });
 
   it('should remove item when quantity is updated to 0', async () => {
@@ -67,9 +64,8 @@ describe('Cart API Integration Tests', () => {
   });
 
   it('should handle removing non-existent item gracefully or throw 400', async () => {
-     // Our logic currently returns the cart state if item doesn't exist to delete
-     const res = await request(app).delete(`/cart/${userId}/item/99999`);
-     expect(res.statusCode).toBe(200);
-     expect(res.body.items).toHaveLength(0);
+    const res = await request(app).delete(`/cart/${userId}/item/99999`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.items).toHaveLength(0);
   });
 });

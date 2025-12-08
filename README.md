@@ -58,27 +58,62 @@ The server will start at `http://localhost:3000`.
 
 ## Testing the API
 
-### Method 1: Postman (Recommended)
+You can test the API using any of the following three methods:
 
-A `postman_collection.json` file is included in the project root (or provided separately). 
+### Option 1: Postman Collection (API Testing)
 
-1.  Open Postman.
-2.  Import `postman_collection.json`.
-3.  The collection "Cart Service API" will appear.
-4.  Standard endpoints provided:
-    - **GET /cart/:userId** - View cart & totals.
-    - **POST /cart/:userId/item** - Add item (Body: `{ "productId": 1, "quantity": 1 }`).
-    - **POST /cart/:userId/coupon/apply** - Apply coupon (Body: `{ "code": "SAVE10" }`).
+A Postman collection is included in the project for easy API testing.
 
-*Tip: Use `user123` as a test `userId`.*
+**Location:** `src/postman/Cart Service API.postman_collection.json`
 
-### Method 2: Manual Endpoints
+**Steps:**
+1. Open Postman
+2. Click **Import** and select the collection file from `src/postman/`
+3. The collection "Cart Service API" will appear with all endpoints
+4. Use `user123` as the test `userId`
 
-- **Add Item**: `POST http://localhost:3000/cart/user123/item`
-  - Body: `{ "productId": 1, "quantity": 2 }`
-- **View Cart**: `GET http://localhost:3000/cart/user123`
-- **Apply Coupon**: `POST http://localhost:3000/cart/user123/coupon/apply`
-  - Body: `{ "code": "SAVE10" }`
+**Available Endpoints:**
+- **GET /cart/:userId** - View cart & totals
+- **POST /cart/:userId/item** - Add item to cart
+- **PUT /cart/:userId/item/:productId** - Update item quantity
+- **DELETE /cart/:userId/item/:productId** - Remove item
+- **POST /cart/:userId/coupon/apply** - Apply coupon
+- **POST /cart/:userId/coupon/remove** - Remove coupon
+- **GET /products** - Get all products
+
+### Option 2: Unit Tests (Automated Testing)
+
+Run the automated test suite to verify all functionality:
+
+```bash
+npm test
+```
+
+This will run Jest tests covering:
+- Cart operations (add, update, remove items)
+- Coupon validation and application
+- Concurrency control
+- Auto-coupon selection
+
+### Option 3: React Frontend (Visual Testing)
+
+A React frontend is available for visual testing and demonstration.
+
+**Local Development:**
+```
+Frontend URL: http://localhost:5173
+Backend URL: http://localhost:5000
+```
+
+**Steps:**
+1. Ensure the backend server is running (`npm run dev`)
+2. Navigate to the frontend directory and start it
+3. Open `http://localhost:5173` in your browser
+4. Interact with the cart and test coupon functionality visually
+
+**Production (Vercel):**
+- Frontend: *[To be deployed]*
+- Backend: Ensure CORS is configured for the Vercel domain
 
 ## Project Structure
 
@@ -102,4 +137,4 @@ prisma/
 ## Troubleshooting
 - **Import Errors?**: Run `npx prisma generate`.
 - **"Foreign key constraint violated"?**: Ensure you ran `npx ts-node prisma/seed.ts` and are using a valid `productId` (check the seed output).
-# Cart_-_Coupon_Server
+# cart-coupon-server

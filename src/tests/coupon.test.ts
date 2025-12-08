@@ -65,7 +65,7 @@ describe('Coupon System Tests', () => {
     // Reset cart before each test
     await prisma.cartItem.deleteMany({ where: { cart: { userId } } });
     await prisma.cart.deleteMany({ where: { userId } });
-    
+
     // Add 1 item ($50)
     await request(app)
       .post(`/cart/${userId}/item`)
@@ -108,21 +108,21 @@ describe('Coupon System Tests', () => {
   it('should apply best auto-coupon if no manual coupon', async () => {
     // Clean start
     await prisma.coupon.deleteMany({ where: { code: 'AUTO5' } });
-    
+
     // Create an auto-apply coupon better than others?
     // Let's make an auto coupon for $5 off
     await prisma.coupon.create({
-        data: {
-            code: 'AUTO5',
-            discountType: 'FIXED',
-            discountValue: 5,
-            autoApply: true
-        }
+      data: {
+        code: 'AUTO5',
+        discountType: 'FIXED',
+        discountValue: 5,
+        autoApply: true
+      }
     });
 
     // We just GET the cart, it should auto-apply
     const res = await request(app).get(`/cart/${userId}`);
-    
+
     expect(res.statusCode).toBe(200);
     expect(res.body.totals.appliedCouponCode).toBe('AUTO5');
     expect(res.body.totals.discountCents).toBe(500);
@@ -134,19 +134,19 @@ describe('Coupon System Tests', () => {
 
     // Create a coupon with maxUses = 1
     await prisma.coupon.create({
-        data: {
-            code: 'ONETIME',
-            discountType: 'FIXED',
-            discountValue: 100,
-            maxUses: 1,
-            currentUses: 0
-        }
+      data: {
+        code: 'ONETIME',
+        discountType: 'FIXED',
+        discountValue: 100,
+        maxUses: 1,
+        currentUses: 0
+      }
     });
 
     // First user applies it
     const res1 = await request(app)
-        .post(`/cart/${userId}/coupon/apply`)
-        .send({ code: 'ONETIME' });
+      .post(`/cart/${userId}/coupon/apply`)
+      .send({ code: 'ONETIME' });
     expect(res1.statusCode).toBe(200);
 
     // Second user setup (must have a cart first)
@@ -155,22 +155,22 @@ describe('Coupon System Tests', () => {
 
     // Second user tries to apply it (should fail)
     const res2 = await request(app)
-        .post(`/cart/${userId2}/coupon/apply`)
-        .send({ code: 'ONETIME' });
-        
+      .post(`/cart/${userId2}/coupon/apply`)
+      .send({ code: 'ONETIME' });
+
     expect(res2.statusCode).toBe(400);
     expect(res2.body.error).toMatch(/limit reached/i);
-    
+
     // Cleanup
     await prisma.coupon.delete({ where: { code: 'ONETIME' } });
     await prisma.cart.delete({ where: { userId: userId2 } });
   });
 
   afterAll(async () => {
-      // Clean up AUTO5 to prevent leaking into other tests
-      try {
-        await prisma.coupon.delete({ where: { code: 'AUTO5' } });
-      } catch (e) {}
+    // Clean up AUTO5 to prevent leaking into other tests
+    try {
+      await prisma.coupon.delete({ where: { code: 'AUTO5' } });
+    } catch (e) { }
   });
 
 });

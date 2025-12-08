@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "a4be4e0f-2ca8-4b69-a457-6a390ba6d184",
+		"name": "Cart Service API",
+		"description": "Collection for testing the E-Commerce Cart and Coupon Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41981728"
+	},
+	"item": [
+		{
+			"name": "Get Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item to Cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": 1,\n    \"quantity\": 2\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}/item",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item Quantity",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantity\": 5\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}/item/:productId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}",
+						"item",
+						":productId"
+					],
+					"variable": [
+						{
+							"key": "productId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}/item/:productId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}",
+						"item",
+						":productId"
+					],
+					"variable": [
+						{
+							"key": "productId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Coupon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"SAVE10\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}/coupon/apply",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}",
+						"coupon",
+						"apply"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Coupon",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cart/{{userId}}/coupon/remove",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cart",
+						"{{userId}}",
+						"coupon",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "user123",
+			"type": "string"
+		}
+	]
+}

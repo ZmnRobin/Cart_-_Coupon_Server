@@ -7,31 +7,27 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-// Discount type enum for Coupons
 enum DiscountType {
   FIXED
   PERCENTAGE
 }
 
-// Product Model (Mock data source for cart items)
 model Product {
   id               Int                  @id @default(autoincrement())
   sku              String               @unique
-  priceCents       Int                  // Price in cents to avoid float errors
-  name             String
+  priceCents       Int                  
+  name             Strin
   cartItems        CartItem[]
   restrictions     ProductRestriction[]
 }
 
-// Cart Model
 model Cart {
   id                Int        @id @default(autoincrement())
-  userId            String     @unique // Mock user ID
-  appliedCouponCode String?    // The code currently applied (manual or auto)
+  userId            String     @unique 
+  appliedCouponCode String?   
   items             CartItem[]
 }
 
-// CartItem Model
 model CartItem {
   id        Int     @id @default(autoincrement())
   cartId    Int
@@ -40,39 +36,34 @@ model CartItem {
   cart      Cart    @relation(fields: [cartId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
 
-  @@unique([cartId, productId]) // Prevent duplicate rows for same product in a cart
+  @@unique([cartId, productId]) 
 }
 
-// Coupon Model
 model Coupon {
   id                Int                  @id @default(autoincrement())
   code              String               @unique
   discountType      DiscountType
-  discountValue     Decimal              // Value of discount (e.g., 10.00 for $10 or 10% for 10%)
-  maxDiscountCents  Int?                 // Cap for percentage discounts
+  discountValue     Decimal              
+  maxDiscountCents  Int?                 
   autoApply         Boolean              @default(false)
-  version           Int                  @default(0) // For Optimistic Concurrency Control
+  version           Int                  @default(0) 
   
-  // Rule Fields
-  maxUses           Int?                 // Max total global uses
-  usesPerUser       Int?                 // Max uses per specific user (logic handled in service)
-  minCartItems      Int?                 // Min items required in cart
-  minCartTotalCents Int?                 // Min subtotal required
+  maxUses           Int?                 
+  usesPerUser       Int?                 
+  minCartItems      Int?                 
+  minCartTotalCents Int?                 
   expiryDate        DateTime?
   
-  // Usage tracking
-  currentUses       Int                  @default(0) // Counter for system-wide usage
+  currentUses       Int                  @default(0)
 
   restrictions      ProductRestriction[]
 }
 
-// ProductRestriction Model (Links coupon to specific products)
 model ProductRestriction {
   id        Int     @id @default(autoincrement())
   couponId  Int
   productId Int
   coupon    Coupon  @relation(fields: [couponId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
-
   @@unique([couponId, productId])
 }

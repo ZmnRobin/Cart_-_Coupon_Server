@@ -6,11 +6,9 @@ import productRoutes from "./routes/productRoutes";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS
 app.use(cors());
-
-// Parse JSON
 app.use(express.json());
+
 
 // Routes
 app.use("/cart", cartRoutes);

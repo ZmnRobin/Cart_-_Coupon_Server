@@ -1,5 +1,3 @@
-import { Decimal } from '@prisma/client/runtime/library';
-
 export interface CartTotal {
   subtotalCents: number;
   discountCents: number;

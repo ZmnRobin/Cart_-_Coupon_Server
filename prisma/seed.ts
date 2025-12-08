@@ -39,7 +39,7 @@ async function main() {
       name: 'Mechanical Keyboard',
       priceCents: 12999, // $129.99
     },
-    
+
     // Accessories
     {
       sku: 'ACCS-001',
@@ -66,7 +66,7 @@ async function main() {
       name: 'Webcam HD 1080p',
       priceCents: 6999, // $69.99
     },
-    
+
     // Computing
     {
       sku: 'COMP-001',
@@ -108,9 +108,9 @@ async function main() {
   // ========================================
   // COUPONS
   // ========================================
-  
+
   console.log('\nCreating coupons...');
-  
+
   // Manual Coupons
   await prisma.coupon.upsert({
     where: { code: 'SAVE10' },

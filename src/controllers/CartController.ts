@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { cartService } from '../services/CartService';
 
 export class CartController {
-  
+
   async getCart(req: Request, res: Response) {
     try {
       const { userId } = req.params;
@@ -17,10 +17,10 @@ export class CartController {
     try {
       const { userId } = req.params;
       const { productId, quantity } = req.body;
-      
+
       if (!productId || typeof quantity !== 'number') {
-         res.status(400).json({ error: 'Invalid product or quantity' });
-         return;
+        res.status(400).json({ error: 'Invalid product or quantity' });
+        return;
       }
 
       const result = await cartService.addItem(userId, Number(productId), quantity);
@@ -34,10 +34,10 @@ export class CartController {
     try {
       const { userId, productId } = req.params;
       const { quantity } = req.body;
-      
+
       if (typeof quantity !== 'number') {
-         res.status(400).json({ error: 'Invalid quantity' });
-         return;
+        res.status(400).json({ error: 'Invalid quantity' });
+        return;
       }
 
       const result = await cartService.updateItem(userId, Number(productId), quantity);
@@ -63,8 +63,8 @@ export class CartController {
       const { code } = req.body;
 
       if (!code) {
-         res.status(400).json({ error: 'Coupon code required' });
-         return;
+        res.status(400).json({ error: 'Coupon code required' });
+        return;
       }
 
       const result = await cartService.applyCoupon(userId, code);
@@ -80,8 +80,7 @@ export class CartController {
       const result = await cartService.removeCoupon(userId);
       res.json(result);
     } catch (error: any) {
-        // "Method not able to remove" is rarely an error unless DB fails
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   }
 }
